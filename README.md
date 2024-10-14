@@ -7,7 +7,7 @@ an extension for chrome using built-in ai
 
 ### links
 
-- docs: https://developer.chrome.com/docs/extensions/get-started
+- docs: https://developer.chrome.com/docs/extensions/get-started, https://docs.google.com/document/d/18otm-D9xhn_XyObbQrc1v7SI-7lBX3ynZkjEpiS1V04/edit
 - ai: https://developer.chrome.com/docs/ai/built-in
 - firebase: https://firebase.google.com/docs/guides
 

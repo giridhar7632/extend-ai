@@ -1,9 +1,30 @@
 # extend-ai
 an extension for chrome using built-in ai
 
-### tech stack
-- next.js (for frontend)
-- firebase (auth, db, storage, hosting, analytics)
+### Tech stack
+1. Client facing app (optional)
+	- Next.js
+	- Tailwind CSS
+	- Vercel
+2. browser extension
+	- React (JS)
+	- Tailwind CSS
+	- TypeScript (preferable)
+3. server
+   - Initial version
+  		1. node.js
+  		2. express
+      3. jina.ai for verctorizing data
+      4. gemini summarize api
+    - Second revison
+        1. next.js api routes || cloud functions || workers
+5. database
+	- firestore (no-sql)
+
+### Architecture 
+
+![extend-ai-arch-base](https://github.com/user-attachments/assets/e0c7ae70-6974-4794-9890-b74ad6ded8b1)
+
 
 ### links
 

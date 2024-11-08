@@ -1,0 +1,28 @@
+{
+  "name": "extend-ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "prepare": "husky install",
+    "eslint": "eslint --ext .js,.jsx,.ts,.tsx --fix .",
+    "format": "prettier --write **/**/*.{js,jsx}",
+    "pre-commit": "lint-staged"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.14.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3"
+  }
+}

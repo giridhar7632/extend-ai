@@ -23,12 +23,15 @@ import {
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export type SummarySchema = {
     title?: string,
     description?: string,
     date?: string,
     key_points?: string[],
+    cached?: boolean
+    updatedAt?: Date
 }
 
 const formSchema = z.object({
@@ -93,7 +96,25 @@ export default function InputForm({ type }: Readonly<{ type: "online" | "offline
                 <Button type="submit" disabled={isLoading}>Submit</Button>
             </form>
         </Form>
-        {summary && (
+        {isLoading ? 
+        <Card>
+            <CardHeader>
+                <CardTitle><Skeleton className="w-40 h-4 rounded-full" /></CardTitle>
+                <CardDescription><Skeleton className="w-80 h-4 rounded-full" /></CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ol className="space-y-2 px-6">
+                    {new Array(3).fill(0).map((_, index) => (
+                        <li key={index}><Skeleton className="w-32 h-4 rounded-full" /></li>
+                    ))}
+                </ol>
+            </CardContent>
+            <CardFooter className="flex items-center justify-between">
+                <Skeleton className="w-8 h-4 rounded-full" />
+                <Skeleton className="w-8 h-4 rounded-full" />
+            </CardFooter>
+        </Card>
+        : summary ? (
             <Card>
                 <CardHeader>
                     <CardTitle>{summary?.title}</CardTitle>
@@ -108,10 +129,10 @@ export default function InputForm({ type }: Readonly<{ type: "online" | "offline
                 </CardContent>
                 <CardFooter className="flex items-center justify-between">
                     <p className="text-sm italic text-neutral-500">{new Date(summary?.date || "").toUTCString().substring(0, 17)}</p>
-                    <p className="text-sm italic text-neutral-500">{timeTaken} ms</p>
+                    <p className="text-sm italic text-neutral-500">{summary?.cached && '(cached)'} {timeTaken} ms</p>
                 </CardFooter>
             </Card>
-        )}
+        ) : null}
         </div>
     )
   }

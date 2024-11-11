@@ -1,8 +1,9 @@
 'use server'
 
-import { GEMINI_API_KEY, GEMINI_MODEL, PROMPT_TEMPLATE, READER_API_KEY, READER_URL } from "@/utils/config"
+import { EXPIRY_TIME, GEMINI_API_KEY, GEMINI_MODEL, PROMPT_TEMPLATE, READER_API_KEY, READER_URL } from "@/lib/config"
 import { GoogleGenerativeAI } from '@google/generative-ai'
-import { parseSummary } from "@/utils/helpers"
+import { getCurrentTime, getUrlData, insertUrlData, parseSummary } from "@/lib/utils"
+import { db } from '@/lib/firestore';
 
 export const getContent = async (url: string) => {
     const txt = await fetch(READER_URL as string, {
@@ -22,6 +23,11 @@ export const getContent = async (url: string) => {
 }
 
 export const getSummary = async (url: string) => {
+    const data = await getUrlData(db, url);
+    if (data && data.updatedAt > getCurrentTime() - EXPIRY_TIME){
+      return { ...data, updatedAt: new Date(data.updatedAt._seconds), cached: true };
+    }
+
     const content = await getContent(url)
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY as string)
     const model = genAI.getGenerativeModel({ model:  GEMINI_MODEL as string})
@@ -31,6 +37,10 @@ export const getSummary = async (url: string) => {
         throw new Error('Failed to generate prompt')
     }
 
+    
     const result = await model.generateContent(prompt)
-    return parseSummary(result.response.text())
+    const parsedResult = parseSummary(result.response.text())
+    insertUrlData(db, url, parsedResult)
+    
+    return parsedResult
 }

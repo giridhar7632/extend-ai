@@ -5,3 +5,4 @@ export const READER_API_KEY = process.env.READER_API_KEY
 export const GEMINI_API_KEY = process.env.GEMINI_API_KEY
 export const PROMPT_TEMPLATE = process.env.PROMPT_TEMPLATE?.replace(/\\n/g, '\n')
 export const GEMINI_MODEL = process.env.GEMINI_MODEL
+export const EXPIRY_TIME = 7 * 24 * 60 * 60 // a week in seconds

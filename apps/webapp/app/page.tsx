@@ -5,7 +5,7 @@ export default function Home() {
 
   return (
     <div className="grid justify-items-center min-h-screen p-8 pb-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 w-[70%]">
+      <main className="flex flex-1 flex-col gap-8 pt-20 w-[70%]">
         <h1 className="text-4xl font-bold text-center">Extend-ai</h1>
         <InputForm type="online" />
       </main>

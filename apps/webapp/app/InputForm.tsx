@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { getSummary } from "./actions"; 
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import {
@@ -24,21 +23,13 @@ import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-
-export type SummarySchema = {
-    title?: string,
-    description?: string,
-    date?: string,
-    key_points?: string[],
-    cached?: boolean
-    updatedAt?: Date
-}
+import { SummarySchema } from "@/lib/types";
 
 const formSchema = z.object({
   url: z.string().url(),
 })
 
-export default function InputForm({ type }: Readonly<{ type: "online" | "offline" }>) {
+export default function InputForm({ type, formSubmit }: Readonly<{ type: "online" | "offline" }> & { formSubmit: (url: string) => Promise<SummarySchema> }) {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [summary, setSummary] = useState<SummarySchema | null>(null)
     const [timeTaken, setTimeTaken] = useState<string>("")
@@ -55,12 +46,10 @@ export default function InputForm({ type }: Readonly<{ type: "online" | "offline
             setSummary(null)
             const startTime = performance.now();
             try {
-                if(type === 'online') {
-                    const { url } = values
-                    if (url) {
-                        const res = await getSummary(url)
-                        setSummary(res)
-                    }
+                const { url } = values
+                if (url) {
+                    const res = await formSubmit(url)
+                    setSummary(res)
                 }
             } catch (error) {
                 console.error(error);
@@ -129,7 +118,7 @@ export default function InputForm({ type }: Readonly<{ type: "online" | "offline
                 </CardContent>
                 <CardFooter className="flex items-center justify-between">
                     <p className="text-sm italic text-neutral-500">{new Date(summary?.date || "").toUTCString().substring(0, 17)}</p>
-                    <p className="text-sm italic text-neutral-500">{summary?.cached && '(cached)'} {timeTaken} ms</p>
+                    <p className="text-sm italic text-neutral-500">{summary?.cached && '(⚡️ cached)'} {timeTaken} ms</p>
                 </CardFooter>
             </Card>
         ) : null}

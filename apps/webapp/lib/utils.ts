@@ -1,8 +1,8 @@
-import { SummarySchema } from "@/app/InputForm";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import crypto from "crypto"
 import { Firestore } from "firebase-admin/firestore";
+import { SummarySchema } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -37,23 +37,22 @@ export const errorHandler = (error: Error) => {
   }
 }
 
-export async function insertUrlData(db: Firestore, url: string, urlRecord: SummarySchema) {
-  try {
-    const urlHash = hashUrl(url);
-    const urlRef = db.doc(`urls/${urlHash}`);
-    await urlRef.set({ ...urlRecord, updatedAt: new Date() });
-  } catch (error) {
-    console.error('Error inserting URL data:', error);
+export function getBrowserInfo() {
+  const userAgent = navigator.userAgent;
+  
+  if (userAgent.includes("Chrome") && !userAgent.includes("Edge") && !userAgent.includes("OPR")) {
+    return "Chrome";
+  } else if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) {
+    return "Safari";
+  } else if (userAgent.includes("Firefox")) {
+    return "Firefox";
+  } else if (userAgent.includes("OPR") || userAgent.includes("Opera")) {
+    return "Opera";
+  } else if (userAgent.includes("Edge") || userAgent.includes("Edg")) {
+    return "Edge";
+  } else if (userAgent.includes("MSIE") || userAgent.includes("Trident")) {
+    return "Internet Explorer";
   }
-}
-
-export async function getUrlData(db: Firestore, url: string) {
-  const urlHash = hashUrl(url);
-  const doc = await db.collection('urls').doc(urlHash).get();
-
-  if (doc.exists) {
-    return doc.data();
-  } else {
-    return null;
-  }
+  
+  return "Unknown";
 }

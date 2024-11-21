@@ -1,9 +1,9 @@
 import 'dotenv/config'
+import morgan from 'morgan'
 import express from 'express'
 import { PORT } from './utils/config.js'
 import { errorHandler, unknownEndpoint } from './utils/middleware.js'
-import morgan from 'morgan'
-import { getContent, getSummary, parseSummary } from './utils/helpers.js'
+import { getContent, getSummary, parseSummary, scrapeClientRenderedContent } from './utils/helpers.js'
 
 const app = express()
 app.use(express.json())
@@ -35,6 +35,17 @@ app.all('/summary', async (req, res) => {
         const summary = await getSummary(url, res)
         const parsedSummary = parseSummary(summary)
         res.status(200).json({ summary: parsedSummary })
+    } catch (error) {
+        errorHandler(error, res)
+    }
+})
+
+app.all('/reader', async (req, res) => {
+    try {
+        const url = req.method === 'GET' ? req.query.url : req.body.url
+        const content = await scrapeClientRenderedContent(url)
+
+        res.status(200).json({ content })
     } catch (error) {
         errorHandler(error, res)
     }

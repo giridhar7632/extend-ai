@@ -35,13 +35,13 @@ export default function OfflineUse() {
             }
 
             const content = await getContent(url)
-            let session = await createSummarizationSession(
+            const session = await createSummarizationSession(
                 'key-points' as AISummarizerType,
                 'markdown' as AISummarizerFormat,
                 'short' as AISummarizerLength,
             )
             const articleData = extractArticleDetailsFromString(content)
-            let summary = await session.summarize(articleData.content)
+            const summary = await session.summarize(articleData.content)
             const returnData = {
                 title: articleData.title,
                 description: articleData.description,

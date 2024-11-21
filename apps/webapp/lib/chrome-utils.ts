@@ -36,7 +36,7 @@ export const createSummarizationSession = async (
     return summarizationSession
 }
 
-export function extractArticleDetailsFromString(data: string): ExtractedData {
+export function extractArticleDetailsFromString(data: string, shorten: boolean = true): ExtractedData {
     const titleRegex = /Title:\s*(.*?)(?=\n|$)/
     const publishDateRegex = /Published Time:\s*(\S+)/
     const descriptionRegex = /Description:\s*(\S+)/
@@ -57,6 +57,7 @@ export function extractArticleDetailsFromString(data: string): ExtractedData {
 
     let extractedContent = markdown.replace(/!\[.*?\]\(.*?\)/g, '') // remove images like ![alt](url)
     extractedContent = extractedContent.replace(/\[.*?\]\(.*?\)/g, '') // remove links like [text](url)
+    // eslint-disable-next-line
     extractedContent = extractedContent.replace(/^[\-\_+#]+$/gm, '') // remove horizontal rules like --- or ***
     // extractedContent = extractedContent.replace(/\*\*[^*]+\*\*/g, '').replace(/__[^_]+__/g, '') // remove bold and italic markdown
     extractedContent = extractedContent
@@ -67,7 +68,7 @@ export function extractArticleDetailsFromString(data: string): ExtractedData {
     extractedContent = extractedContent.replace(/`[^`]*`/g, '') // remove inline codes like `code`
     extractedContent = extractedContent.replace(/^#{1,6}\s?.*/gm, '') // remove all headers (anything like # Header, ## Subheader, etc.)
 
-    if (extractedContent.length > 4000) {
+    if (extractedContent.length > 4000 && shorten) {
         // The underlying model has a context of 1,024 tokens, out of which 26 are used by the internal prompt,
         // leaving about 998 tokens for the input text. Each token corresponds, roughly, to about 4 characters, so 4,000
         // is used to trim the content that might be too long to summarize.

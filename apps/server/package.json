@@ -8,7 +8,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "prepare": "husky install",
-    "eslint": "eslint --ext .js,.jsx,.ts,.tsx --fix .",
+    "eslint": "eslint -c *.js,.jsx,.ts,.tsx --fix .",
     "format": "prettier --write **/**/*.{js,jsx}",
     "pre-commit": "lint-staged"
   },
@@ -16,9 +16,12 @@
   "license": "ISC",
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
+    "cheerio": "^1.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "morgan": "^1.10.0"
+    "get-urls": "^12.1.0",
+    "morgan": "^1.10.0",
+    "puppeteer": "^23.8.0"
   },
   "devDependencies": {
     "eslint": "^9.14.0",

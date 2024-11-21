@@ -42,7 +42,6 @@ export default function InputForm({
                 setSummary(res)
             }
         } catch (error) {
-            console.error(error)
             const description = error instanceof Error ? error.message : 'Failed to summarize'
             toast({
                 title: 'Uh oh! Something went wrong.',

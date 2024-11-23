@@ -38,3 +38,4 @@ an extension for chrome using built-in ai
 - https://www.reddit.com/r/reactjs/comments/157zby5/which_stack_is_recommended_to_create_chrome/
 - https://www.reddit.com/r/webdev/comments/1frg2st/i_made_a_chrome_extension_that_lets_you_bookmark/
 - https://www.reddit.com/r/nextjs/comments/1d0ycgf/how_can_i_efficiently_and_securely_communicate/
+- https://chromeos.dev/en/kiosk/connecting-an-extension-from-a-kiosk-pwa

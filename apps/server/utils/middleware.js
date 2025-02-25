@@ -3,7 +3,7 @@ export const unknownEndpoint = (_req, res) => {
 }
 
 export const errorHandler = (error, res) => {
-    console.error(error.message)
+    console.error(error)
 
     if (error.name === 'CastError') {
         return res.status(400).send({ error: 'malformatted id' })

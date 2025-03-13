@@ -8,14 +8,14 @@ async function handler(req: NextRequest) {
 
         if(req.method === 'GET') {
           const searchParams = req.nextUrl.searchParams
-          url = decodeURIComponent(searchParams.get('url') || "")
+          url = decodeURIComponent(searchParams.get('url')?.split('?')[0] || "")
         } else {
           const body = await req.json()
           url = body.url
         }
         if (!url) return Response.json({ message: 'Missing required data' }, { status: 400 })
 
-        const content = await getSummary(url as string)
+        const content = await getSummary(url?.split('?')[0] as string)
         return Response.json(content, { status: 200 })
     } catch (error) {
         errorHandler(error as Error)

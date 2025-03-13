@@ -4,10 +4,13 @@
   "name": "lookin_ai",
   "author": "Ferb",
   "description": "Adds an option to send Google search result links to a server.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting","windows","storage","tabs"],
   "host_permissions": ["https://www.google.com/search*"],
   "background": {
     "service_worker": "background.js"
+  },
+  "action": {
+   "default_popup": "popup.html"
   },
   "content_scripts": [
     {
@@ -20,4 +23,5 @@
     "48": "preview_icon.png",
     "128": "preview_icon.png"
   }
+  
 }

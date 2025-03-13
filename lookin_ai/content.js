@@ -9,7 +9,7 @@ function addButtonsToResults() {
 
       // Create a new button
       let button = document.createElement("button");
-      button.innerText = "Custom Action";
+      button.innerText = "Preview";
       button.className = "custom-btn";
 
       // Get the result link
@@ -17,19 +17,18 @@ function addButtonsToResults() {
 
       // Define what happens when the button is clicked
       button.addEventListener("click", () => {
-          // chrome.runtime.sendMessage({ action: "sendLink", url: link.href });
-          alert(`Button clicked for giridhar: ${link}`);
-          fetch("http://127.0.0.1:8080/summary", {
+          fetch("https://extend-ai.vercel.app/api/summary", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ url: link })
             })
             .then(response => response.json())
             .then(data => {console.log("Data -->", data);
-               return sendResponse({ success: true, data })}
+            chrome.runtime.sendMessage({ action: "openPopup", data }); // Send data to background.js
+              }
           )
-            .catch(error => {console.log("error here");
-              return sendResponse({ success: false, error })});
+            .catch(error => {console.log("error here", error);
+              });
       
       });
 
